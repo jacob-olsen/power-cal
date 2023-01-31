@@ -65,12 +65,18 @@ func readMoth(taget string) int {
 	}
 
 	sum := 0
+	dayList := make([]int, len(folder))
+	dayName := make([]string, len(folder))
 
-	for _, days := range folder {
-		number := readDay(taget + "/" + days.Name())
-		fmt.Println(days.Name() + " - " + strconv.FormatInt(int64(number), 10))
+	for i, days := range folder {
+		dayList[i] = readDay(taget + "/" + days.Name())
+		dayName[i] = days.Name()
 
-		sum += number
+		sum += dayList[i]
+	}
+	gemenSnit := (100 / float64(sum/len(dayList)))
+	for i := 0; i < len(dayList); i++ {
+		fmt.Println(dayName[i] + " - " + strconv.FormatInt(int64(dayList[i]), 10) + " ~ " + strconv.FormatFloat(float64(dayList[i])*gemenSnit, 'f', 2, 64) + "%")
 	}
 
 	return sum
