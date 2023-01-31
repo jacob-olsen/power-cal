@@ -3,12 +3,25 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	fmt.Println("power use for moth " + strconv.FormatFloat(float64(readMoth("power/data/2022/12"))/60000, 'f', 2, 64))
+	sizeArgs := len(os.Args)
+	if sizeArgs == 1 {
+		fmt.Println("no path given")
+	} else {
+		totalSum := 0.0
+		for i := 1; i < sizeArgs; i++ {
+			number := float64(readMoth(os.Args[i])) / 60000
+			totalSum += number
+			fmt.Println("power use for moth " + strconv.FormatFloat(number, 'f', 2, 64) + ":KWh")
+		}
+		fmt.Println()
+		fmt.Println("tortal Power " + strconv.FormatFloat(totalSum, 'f', 2, 64) + ":KWh")
+	}
 }
 
 func readDay(taget string) int {
